@@ -1,17 +1,20 @@
 package main
 
+//as bibliotecas necessárias
 import (
 	"fmt"
 	"math/rand"
 	"reflect"
 )
 
+// Unica função e principal
 func main() {
 
-	num := rand.Intn(7)
-	frutas := []string{"abacate", "pera", "laranja", "melao", "maça", "uva", "morango"}
+	num := rand.Intn(24)
+	frutas := []string{"abacate", "pera", "caqui", "amora", "pitanga", "goiaba", "laranja", "banana", "acerola", "melao", "maça", "pitaya", "carambola", "jabuticaba", "melancia", "uva", "morango", "abacaxi", "caju", "coco", "framboesa", "kiwi", "manga", "maracuja"}
 	adivinha := []string{}
 	palpite := []string{}
+	ja_foram := []string{}
 	letra := ""
 
 	for _, valor := range frutas[num] {
@@ -22,10 +25,10 @@ func main() {
 
 	fmt.Print("\n\tJogo da forca !\n\n")
 	fmt.Print(">>> Valendo somente nomes de frutas <<<\n\n")
-	fmt.Println(palpite)
+	fmt.Println("\t", palpite)
 
 	for true {
-		fmt.Println("\n\nInforme uma letra: ")
+		fmt.Print("\n\nInforme uma letra: ")
 		fmt.Scanln(&letra)
 
 		for i := 0; i < len(adivinha); i++ {
@@ -33,12 +36,18 @@ func main() {
 				palpite[i] = letra
 			}
 		}
-		fmt.Println(palpite)
+		ja_foram = append(ja_foram, letra)
+		fmt.Println("\t ._______")
+		fmt.Println("\t |/      *")
+		fmt.Println("\t |")
+		fmt.Println("\t |")
+		fmt.Println("\t", palpite)
+		fmt.Println("\n\n>Letras escolhidas<", ja_foram)
 
 		if reflect.DeepEqual(adivinha, palpite) == true {
 			break
 		}
 	}
-	fmt.Println("\n\nParabéns, Você acertou !!")
+	fmt.Println("\n\n\t\t>>Parabéns, Você acertou !!<<")
 
 }
