@@ -9,11 +9,12 @@ import (
 	"runtime"
 	"os"
 	"strings"
+	"time"
 )
 
 func main() {
 
-	num := rand.Intn(24)
+	num := rand.Intn(29)
 	fruit := []string{"abacate", "pera", "caqui", "amora", "pitanga", "goiaba", "laranja", "banana", "acerola", "melao", "maça", "pitaya", 
 						"carambola", "jabuticaba", "melancia", "uva", "morango", "abacaxi", "caju", "coco", "framboesa", "kiwi", "manga", 
 						"maracuja", "ameixa", "mamao", "tangerina", "pessego", "nectarina"}
@@ -63,6 +64,29 @@ func main() {
 			break
 		}
 	}
+	menu()
+}
+
+func menu() {
+	var option int
+
+	fmt.Println("\n\n\t\t>>Deseja jogar novamente ?<<")
+	fmt.Println("\t\t1 - Sim")
+	fmt.Println("\t\t2 - Não")
+	fmt.Scanln(&option)
+
+	if option == 1 {
+		clearTerminal()
+		main()
+	} else if option == 2 {
+		clearTerminal()
+		fmt.Println("\t\t>>Obrigado por jogar<<")
+		time.Sleep(10 * time.Second)
+	} else {
+		clearTerminal()
+		fmt.Println("\t\t>>Opção inválida<<")
+		menu()
+	}
 }
 
 func readLetter() string {
@@ -96,7 +120,7 @@ func show(guess, chosen , wrong []string) {
 }
 
 func end(word []string) {
-	fmt.Println("\t\tTentativas excedidas !")
+	fmt.Println("\n\t\tTentativas excedidas !")
 	fmt.Println("\t\t", word)
 }
 
