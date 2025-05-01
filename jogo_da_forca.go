@@ -8,81 +8,81 @@ import (
 	"os/exec"
 	"runtime"
 	"os"
-	"bufio"
 	"strings"
 )
 
 func main() {
 
 	num := rand.Intn(24)
-	frutas := []string{"abacate", "pera", "caqui", "amora", "pitanga", "goiaba", "laranja", "banana", "acerola", "melao", "maça", "pitaya", "carambola", "jabuticaba", "melancia", "uva", "morango", "abacaxi", "caju", "coco", "framboesa", "kiwi", "manga", "maracuja"}
-	adivinha := []string{}
-	palpite := []string{}
-	ja_foram := []string{}
-	erradas := []string{}
-	// letra := ""
+	fruit := []string{"abacate", "pera", "caqui", "amora", "pitanga", "goiaba", "laranja", "banana", "acerola", "melao", "maça", "pitaya", 
+						"carambola", "jabuticaba", "melancia", "uva", "morango", "abacaxi", "caju", "coco", "framboesa", "kiwi", "manga", 
+						"maracuja", "ameixa", "mamao", "tangerina", "pessego", "nectarina"}
+	word := []string{}
+	guess := []string{}
+	chosen := []string{}
+	wrong := []string{}
 	
-	for _, valor := range frutas[num] {
-		//fmt.Println(indice, string(valor))
-		adivinha = append(adivinha, string(valor))
-		palpite = append(palpite, "_")
+	for _, value := range fruit[num] {
+		word = append(word, string(value))
+		guess = append(guess, "_")
 	}
 	
 	fmt.Print("\n\tJogo da forca !\n\n")
 	fmt.Print(">>> Valendo somente nomes de frutas <<<\n\n")
-	fmt.Println("\t", palpite)
+	fmt.Println("\t", guess)
 	
 	for true {
-		existeLetra := false
+		existLetter := false
 
-		letra := readLetter()
+		letter := readLetter()
 
-		if (check(ja_foram, letra) == true){
+		if (check(chosen, letter) == true){
 			fmt.Println("\n\n\t\t>>Essa letra já foi escolhida !<<")
 			continue
 		}
 		
-		for i := 0; i < len(adivinha); i++ {
-			if adivinha[i] == letra {
-				palpite[i] = letra
-				existeLetra = true
+		for i := 0; i < len(word); i++ {
+			if word[i] == letter {
+				guess[i] = letter
+				existLetter = true
 			}
 		}
 
-		if !existeLetra  {
-			erradas = append(erradas, letra)
+		if !existLetter  {
+			wrong = append(wrong, letter)
 		}
 
-		ja_foram = append(ja_foram, letra)
-		show(palpite, ja_foram, erradas)
+		chosen = append(chosen, letter)
+		show(guess, chosen, wrong)
 
-		if reflect.DeepEqual(adivinha, palpite) == true {
+		if reflect.DeepEqual(word, guess) == true {
 			fmt.Println("\n\n\t\t>>Parabéns, Você acertou !!<<")
 			break
-		} else if len(erradas) == 5 {
-			end(adivinha)
+		} else if len(wrong) == 5 {
+			end(word)
 			break
 		}
 	}
 }
 
 func readLetter() string {
-    reader := bufio.NewReader(os.Stdin)
-    fmt.Print("\nInforme uma letra: ") 
+	var input string
+    fmt.Print("\nInforme uma letra: ")
+	fmt.Scanln(&input)
     input = strings.TrimSpace(input)             // Remove espaços e \n
     return strings.ToLower(input)                // Padroniza para minúscula
 }
 
-func check(ja_foram []string, letra string) bool {	
-	for _, l := range ja_foram {
-		if l == letra {
+func check(chosen []string, letter string) bool {	
+	for _, l := range chosen {
+		if l == letter {
 			return true
 		}
 	}
 	return false
 }
 
-func show(palpite, ja_foram , erradas []string) {
+func show(guess, chosen , wrong []string) {
 	clearTerminal()
 	fmt.Print("\n\tJogo da forca !\n\n")
 	fmt.Print(">>> Valendo somente nomes de frutas <<<\n\n")
@@ -90,14 +90,14 @@ func show(palpite, ja_foram , erradas []string) {
 		fmt.Println("\t |/      *")
 		fmt.Println("\t |")
 		fmt.Println("\t |")
-		fmt.Println("\t", palpite)
-		fmt.Println("\n\n>Letras escolhidas<", ja_foram)
-		fmt.Println("\n\n>Letras erradas<", erradas)
+		fmt.Println("\t", guess)
+		fmt.Println("\n\n>Letras escolhidas<", chosen)
+		fmt.Println("\n\n>Letras erradas<", wrong)
 }
 
-func end(adivinha []string) {
+func end(word []string) {
 	fmt.Println("\t\tTentativas excedidas !")
-	fmt.Println("\t\t", adivinha)
+	fmt.Println("\t\t", word)
 }
 
 func clearTerminal() {
